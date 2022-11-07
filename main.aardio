@@ -1,6 +1,11 @@
 import fonts.fontAwesome;
 import win.ui;
 import php;
+import win.dlg.message;
+import win.ui.simpleWindow;
+import console;
+import fsys.config;
+import win.ui.tabs;
 /*DSG{{*/
 mainForm = win.form(text="PHP-Free";right=1019;bottom=679;bgcolor=16777215;border="none")
 mainForm.add(
@@ -17,13 +22,9 @@ titleBar={cls="bkplus";left=0;top=0;right=1022;bottom=38;bgcolor=6318930;dl=1;dr
 )
 /*}}*/
 
-import win.dlg.message;
-import win.ui.simpleWindow;
-
 win.ui.simpleWindow( mainForm );
 var msgDlg = win.dlg.message(winform); 
 
-import win.ui.tabs;
 var tbs = win.ui.tabs( 
 	mainForm.nav1,
 	mainForm.nav2,
@@ -47,16 +48,14 @@ tbs.skin({
 	}
 })
 
-//IconText
-//F060x 设置:F085  Git:F092、F09B  网页:F0AC 回形针:F0C6
-//上传下载:F0ED F0EE
-//最大:F2E0
-
 for(i=1;5;1){
 	tbs.loadForm(i,"\forms\main\frmPage"++i++".aardio");
 }
 
-tbs.selIndex = 1;
+//以下代码为仙术，可以完全解决页面异步加载的问题
+tbs.selIndex = 5;//先载入配置
+tbs.selIndex = 2;//再载入预览页面
+tbs.selIndex = 1;//载入起始页
 
 mainForm.show();
 return win.loopMessage();

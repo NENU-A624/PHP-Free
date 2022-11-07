@@ -76,13 +76,13 @@ EditPage.saveFile.oncommand = function(id,event){
 		}	
 	}
 }
-/*
+
 EditPage.editBox.oncommand = function(id,event){
 	if(event = 0x300){
 		publish("代码变更",EditPage.editBox.text);
 	}
 }
-*/
+
 EditPage.fresh.oncommand = function(id,event){
 	publish("代码变更",EditPage.editBox.text);
 }

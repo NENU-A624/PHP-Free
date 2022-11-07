@@ -13,7 +13,6 @@ editAuthtoken={cls="plus";left=70;top=20;right=698;bottom=40;bgcolor=15724527;bo
 )
 /*}}*/
 
-
 import win.ui.atom;
 var atom,hwnd = winform.atom("{D053A1BA-AB22-4757-8B26-964C9054C847}");
 if(!atom){
@@ -216,9 +215,9 @@ var td = time(,"%d");
 winform.Web.oncommand = function(id,event){
 	var form;
 	if((tonumber(tostring(ty)++tostring(tm)++tostring(td))>=20220201)&&(tonumber(tostring(ty)++tostring(tm)++tostring(td))<=20220215)){
-		form = msgDlg.create('祝Join工作室全体成员2022新春快乐！',,true);	
+		form = msgDlg.create('这是一个彩蛋',,true);	
 	}else {
-		form = msgDlg.create('Join工作室内部专用',,true);
+		form = msgDlg.create('A624',,true);
 	}
 	for(i=1;100;1){
 		if(!form.valid){ break; }

@@ -1,4 +1,6 @@
 import win.ui;
+import web.form;
+import console;
 /*DSG{{*/
 var ViewPage = win.form(text="aardio form";right=759;bottom=469;bgcolor=16777215)
 ViewPage.add(
@@ -8,7 +10,6 @@ webForm={cls="edit";left=15;top=46;right=745;bottom=456;db=1;dl=1;dr=1;dt=1;edge
 )
 /*}}*/
 
-import web.form;
 var winFormBox = web.form(ViewPage.webForm,,,,false); 
 winFormBox.go("about:blank");
 
@@ -19,14 +20,40 @@ php.print = function( msg ) {
 	winFormBox.document.write(msg);
 }
 
+var iniPath = ".\lib\php\.dll\php.ini";
+var cgiPath = ".\lib\php\.dll\php-cgi.exe";
+var port = 8080;
+var ip = "127.0.0.1";
+var threadNum = 2;
+process.php.simpleHttpServer.cgiPath = cgiPath;
+process.php.simpleHttpServer.iniPath = iniPath;
+process.php.simpleHttpServer.startIp = ip;
+process.php.simpleHttpServer.startPort = port;
+process.php.simpleHttpServer.threadNum = threadNum;
+
 subscribe("代码变更",function(...){
 	string.save("/PHP-Free.php",...);
+	publish("询问配置信息",);
 	var url = process.php.simpleHttpServer.startUrl("/PHP-Free.php"); 
 	ViewPage.EditPort.text = url;
 	winFormBox.go(url);
 //	php.exec(...);
 } )
 
+subscribe("php配置",function(iniPathN,cgiPathN,portN,ipN,threadNumN){
+	process.php.simpleHttpServer.cgiPath = cgiPathN;
+	process.php.simpleHttpServer.iniPath = iniPathN;
+	process.php.simpleHttpServer.startIp = ipN;
+	process.php.simpleHttpServer.startPort = portN;
+	process.php.simpleHttpServer.threadNum = threadNumN;
+} )
+subscribe("php配置修改",function(iniPathN,cgiPathN,portN,ipN,threadNumN){
+	process.php.simpleHttpServer.cgiPath = cgiPathN;
+	process.php.simpleHttpServer.iniPath = iniPathN;
+	process.php.simpleHttpServer.startIp = ipN;
+	process.php.simpleHttpServer.startPort = portN;
+	process.php.simpleHttpServer.threadNum = threadNumN;
+} )
 
 ViewPage.show();
 win.loopMessage();

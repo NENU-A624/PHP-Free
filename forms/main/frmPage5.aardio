@@ -1,8 +1,69 @@
 import win.ui;
+import fonts.fontAwesome;
+import win.dlg.message;
+import fsys.dlg;
+import fsys.config;
 /*DSG{{*/
-var SettingPage = win.form(text="aardio form";right=759;bottom=469;bgcolor=16777215)
-SettingPage.add()
+var SettingPage = win.form(text="aardio form";right=938;bottom=642;bgcolor=16777215)
+SettingPage.add(
+PHPcgiPath={cls="static";text="php-cgi.exe路径：";left=50;top=64;right=196;bottom=92;dl=1;dt=1;font=LOGFONT(h=-16);transparent=1;z=2};
+PHPiniPath={cls="static";text="php.ini路径：";left=50;top=34;right=196;bottom=62;dl=1;dt=1;font=LOGFONT(h=-16);transparent=1;z=1};
+PHPstartIp={cls="static";text="服务器端IP：";left=50;top=128;right=196;bottom=156;dl=1;dt=1;font=LOGFONT(h=-16);transparent=1;z=4};
+PHPstartPort={cls="static";text="服务器端口号：";left=50;top=94;right=196;bottom=122;dl=1;dt=1;font=LOGFONT(h=-16);transparent=1;z=3};
+PHPthreadNum={cls="static";text="服务器线程数：";left=50;top=160;right=196;bottom=188;dl=1;dt=1;font=LOGFONT(h=-16);transparent=1;z=5};
+cgiPathC={cls="button";text="...";left=834;top=60;right=904;bottom=86;dr=1;dt=1;font=LOGFONT(h=-30);valign="bottom";z=12};
+cgiPathEdit={cls="richedit";text="default";left=210;top=60;right=822;bottom=85;autovscroll=false;dl=1;dr=1;dt=1;font=LOGFONT(h=-16);link=1;readonly=1;z=7};
+iniPathC={cls="button";text="...";left=834;top=28;right=904;bottom=54;dr=1;dt=1;font=LOGFONT(h=-30);valign="bottom";z=11};
+iniPathEdit={cls="richedit";text="default";left=210;top=30;right=822;bottom=55;autovscroll=false;dl=1;dr=1;dt=1;font=LOGFONT(h=-16);link=1;readonly=1;z=6};
+ipEdit={cls="richedit";text="127.0.0.1";left=208;top=128;right=338;bottom=153;align="center";autovscroll=false;border=1;dl=1;dt=1;font=LOGFONT(h=-16);link=1;z=9};
+portEdit={cls="richedit";text="8080";left=212;top=94;right=338;bottom=119;align="center";autovscroll=false;border=1;dl=1;dt=1;font=LOGFONT(h=-16);link=1;z=8};
+threadNumEdit={cls="richedit";text="2";left=212;top=160;right=338;bottom=185;align="center";autovscroll=false;border=1;dl=1;dt=1;font=LOGFONT(h=-16);link=1;z=10};
+useSettings={cls="button";text="应用并手动重启";left=788;top=162;right=904;bottom=188;dr=1;dt=1;font=LOGFONT(h=-14);z=13}
+)
 /*}}*/
+
+var config = fsys.config(io.appData("aardio/natapp/config"));
+SettingPage.bindConfig( config.SettingPage,{ 
+	richedit = "text"; 
+} );
+
+var iniPath = ".\lib\php\.dll\php.ini";
+var cgiPath = ".\lib\php\.dll\php-cgi.exe";
+var port = 8080;
+var ip = "127.0.0.1";
+var threadNum = 2;
+
+SettingPage.iniPathC.oncommand = function(id,event){
+	iniPath = fsys.dlg.open('配置文件(php.ini)|php.ini|',,,SettingPage);
+	if(iniPath){
+		SettingPage.iniPathEdit.text = iniPath;
+	}
+}
+
+SettingPage.cgiPathC.oncommand = function(id,event){
+	cgiPath = fsys.dlg.open('可执行文件(php-cgi.exe)|php-cgi.exe|',,,SettingPage);
+	if(cgiPath){
+		SettingPage.cgiPathEdit.text = cgiPath;
+	}
+}
+
+SettingPage.useSettings.oncommand = function(id,event){
+	iniPath = SettingPage.iniPathEdit.text;
+	cgiPath = SettingPage.cgiPathEdit.text;
+	port = SettingPage.portEdit.text;
+	ip = SettingPage.ipEdit.text;
+	threadNum = SettingPage.threadNumEdit.text;
+	publish("php配置修改",iniPath,cgiPath,port,ip,threadNum);
+}
+
+subscribe("询问配置信息",function(...){
+	iniPath = SettingPage.iniPathEdit.text;
+	cgiPath = SettingPage.cgiPathEdit.text;
+	port = SettingPage.portEdit.text;
+	ip = SettingPage.ipEdit.text;
+	threadNum = SettingPage.threadNumEdit.text;
+	publish("php配置",iniPath,cgiPath,port,ip,threadNum);
+} )
 
 SettingPage.show();
 win.loopMessage();
