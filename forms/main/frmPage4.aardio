@@ -1,0 +1,35 @@
+import win.ui;
+/*DSG{{*/
+var SourcePage = win.form(text="aardio form";right=759;bottom=469;bgcolor=16777215)
+SourcePage.add(
+webForm={cls="edit";left=14;top=14;right=743;bottom=445;db=1;dl=1;dr=1;dt=1;edge=1;multiline=1;readonly=1;z=1}
+)
+/*}}*/
+
+import electron.app; 
+var theApp = electron.app(SourcePage.webForm); // 创建electron进程,如果第3个参数为true，可以UTF8模式打开控制台 - 用于查看electron主进程输出
+
+//启动主进程的 main.js
+theApp.jsMain =/**  
+
+	//启动RPC服务允许调aardio/electron互调函数,创建BrowserWindow主窗口
+	const aardio = require('aardio');
+	aardio.ready( win=> { 
+		//if( !aardio.studioInvoke  ){
+			win.removeMenu()
+		//}
+	})
+	
+	//管理electron进程的生命周期
+	const app = require('electron').app;
+	
+	//在所有窗口关闭时退出electron进程
+	app.on('window-all-closed', () => app.quit() );
+**/
+
+//直接打开网页
+theApp.start("https://github.com/STCloudLake/PHP-Free") 
+
+SourcePage.show();
+win.loopMessage();
+return SourcePage;

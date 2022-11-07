@@ -1,0 +1,92 @@
+import fonts.fontAwesome;
+import win.ui;
+import win.dlg.message;
+/*DSG{{*/
+var EditPage = win.form(text="aardio form";right=759;bottom=469;bgcolor=16777215)
+EditPage.add(
+editBox={cls="edit";left=14;top=47;right=472;bottom=447;db=1;dl=1;dr=1;dt=1;edge=1;font=LOGFONT(h=-18);hscroll=1;multiline=1;vscroll=1;z=1};
+fresh={cls="plus";text="刷新预览";left=264;top=12;right=364;bottom=42;align="left";bgcolor=12639424;dr=1;dt=1;font=LOGFONT(h=-13);forecolor=12632256;iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=15}};iconText='\uF0E7';linearGradient=180;notify=1;textPadding={left=39};z=6};
+openFile={cls="plus";text="打开文件";left=14;top=12;right=114;bottom=42;align="left";bgcolor=11580047;dl=1;dt=1;font=LOGFONT(h=-13);forecolor=4767744;iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=15}};iconText='\uF0F6';linearGradient=180;notify=1;textPadding={left=39};z=2};
+pathBox={cls="plus";left=171;top=12;right=341;bottom=42;align="left";aw=1;dl=1;dt=1;transparent=1;z=3};
+pathTitle={cls="plus";text="当前文件:";left=116;top=12;right=174;bottom=42;align="left";aw=1;dl=1;dt=1;transparent=1;z=4};
+saveFile={cls="plus";text="保存文件";left=372;top=12;right=472;bottom=42;align="left";bgcolor=49194;dr=1;dt=1;font=LOGFONT(h=-13);forecolor=12632256;iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=15}};iconText='\uF0C7';linearGradient=180;notify=1;textPadding={left=39};z=5}
+)
+/*}}*/
+
+EditPage.openFile.skin({
+	background={
+		default=0x668FB2B0;
+		disabled=0xFFCCCCCC;
+		hover=0xFFF28BB3
+	};
+	color={
+		default=0xFF000000;
+		disabled=0xFF6D6D6D
+	}
+})
+
+EditPage.saveFile.skin({
+	background={
+		default=0x668FFFB0;
+		disabled=0xFFCCCCCC;
+		hover=0xFFF28BB3
+	};
+	color={
+		default=0xFF000000;
+		disabled=0xFF6D6D6D
+	}
+})
+
+EditPage.fresh.skin({
+	background={
+		default=0x668FE2B0;
+		disabled=0xFFCCCCCC;
+		hover=0xFFF28BB3
+	};
+	color={
+		default=0xFF000000;
+		disabled=0xFF6D6D6D
+	}
+})
+
+import fsys.dlg;
+
+//打开文件按钮
+EditPage.openFile.oncommand = function(id,event){
+	var path = fsys.dlg.open('php文件(*.php)|*.php|静态网页(*.html)|*.html|所有文件(*.*)|*.*||',,,EditPage); 	
+	if(path){
+		EditPage.pathBox.text = path;
+		//显示文件路径
+		var phpcode = string.load(path);
+		phpcode = string.fromto(phpcode,,65001);
+		EditPage.editBox.text = phpcode;
+	}
+}
+
+//保存文件按钮
+EditPage.saveFile.oncommand = function(id,event){
+	var path = fsys.dlg.open('php文件(*.php)|*.php|静态网页(*.html)|*.html|所有文件(*.*)|*.*||',,,EditPage); 	
+	if(path){
+		if(string.save(path, EditPage.editBox.text)){
+			//保存成功
+			EditPage.msgOk('保存成功',3000);
+		}else{
+			//保存失败
+			EditPage.msgErr('保存失败',3000);
+		}	
+	}
+}
+/*
+EditPage.editBox.oncommand = function(id,event){
+	if(event = 0x300){
+		publish("代码变更",EditPage.editBox.text);
+	}
+}
+*/
+EditPage.fresh.oncommand = function(id,event){
+	publish("代码变更",EditPage.editBox.text);
+}
+
+EditPage.show();
+win.loopMessage();
+return EditPage;

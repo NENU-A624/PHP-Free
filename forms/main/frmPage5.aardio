@@ -1,0 +1,9 @@
+import win.ui;
+/*DSG{{*/
+var SettingPage = win.form(text="aardio form";right=759;bottom=469;bgcolor=16777215)
+SettingPage.add()
+/*}}*/
+
+SettingPage.show();
+win.loopMessage();
+return SettingPage;

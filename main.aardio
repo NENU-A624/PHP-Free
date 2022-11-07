@@ -1,0 +1,62 @@
+import fonts.fontAwesome;
+import win.ui;
+import php;
+/*DSG{{*/
+mainForm = win.form(text="PHP-Free";right=1019;bottom=679;bgcolor=16777215;border="none")
+mainForm.add(
+caption={cls="bkplus";text="PHP-Free";left=55;top=5;right=175;bottom=35;color=6052956;dl=1;dt=1;font=LOGFONT(h=-14);z=7};
+custom={cls="custom";left=84;top=38;right=1023;bottom=681;db=1;dl=1;dr=1;dt=1;z=4};
+logo={cls="bkplus";text='\uF0D2';left=25;top=5;right=55;bottom=35;color=6450008;dl=1;dt=1;font=LOGFONT(h=-18;name='FontAwesome');z=6};
+nav1={cls="plus";text="编辑";left=0;top=38;right=83;bottom=118;bkBottom=3;bkLeft=7;bkRight=8;bkTop=2;border={color=-65536};color=16777215;dl=1;dt=1;font=LOGFONT(h=-13);iconStyle={font=LOGFONT(h=-37;name='FontAwesome');padding={bottom=20}};iconText='\uF06C';notify=1;textPadding={bottom=10};valign="bottom";x=0.5;y=0.2;z=3};
+nav2={cls="plus";text="浏览";left=0;top=118;right=83;bottom=198;bkBottom=3;bkLeft=7;bkRight=8;bkTop=2;border={color=-65536};color=16777215;dl=1;dt=1;font=LOGFONT(h=-13);iconStyle={font=LOGFONT(h=-37;name='FontAwesome');padding={bottom=20}};iconText='\uF0AC';notify=1;textPadding={bottom=10};valign="bottom";x=0.5;y=0.2;z=5};
+nav3={cls="plus";text="穿透";left=0;top=198;right=83;bottom=278;bkBottom=3;bkLeft=7;bkRight=8;bkTop=2;border={color=-65536};color=16777215;dl=1;dt=1;font=LOGFONT(h=-13);iconStyle={font=LOGFONT(h=-37;name='FontAwesome');padding={bottom=20}};iconText='\uF208';notify=1;textPadding={bottom=10};valign="bottom";x=0.5;y=0.2;z=8};
+nav4={cls="plus";text="开源";left=0;top=278;right=83;bottom=358;bkBottom=3;bkLeft=7;bkRight=8;bkTop=2;border={color=-65536};color=16777215;dl=1;dt=1;font=LOGFONT(h=-13);iconStyle={font=LOGFONT(h=-37;name='FontAwesome');padding={bottom=20}};iconText='\uF09B';notify=1;textPadding={bottom=10};valign="bottom";x=0.5;y=0.2;z=9};
+nav5={cls="plus";text="设置";left=0;top=358;right=83;bottom=438;bkBottom=3;bkLeft=7;bkRight=8;bkTop=2;border={color=-65536};color=16777215;dl=1;dt=1;font=LOGFONT(h=-13);iconStyle={font=LOGFONT(h=-37;name='FontAwesome');padding={bottom=20}};iconText='\uF013';notify=1;textPadding={bottom=10};valign="bottom";x=0.5;y=0.2;z=10};
+navBar={cls="bkplus";left=0;top=38;right=83;bottom=681;bgcolor=4961168;db=1;dl=1;dt=1;z=1};
+titleBar={cls="bkplus";left=0;top=0;right=1022;bottom=38;bgcolor=6318930;dl=1;dr=1;dt=1;forecolor=16777215;linearGradient=180;z=2}
+)
+/*}}*/
+
+import win.dlg.message;
+import win.ui.simpleWindow;
+
+win.ui.simpleWindow( mainForm );
+var msgDlg = win.dlg.message(winform); 
+
+import win.ui.tabs;
+var tbs = win.ui.tabs( 
+	mainForm.nav1,
+	mainForm.nav2,
+	mainForm.nav3,
+	mainForm.nav4,
+	mainForm.nav5,
+);
+
+tbs.skin({
+	background={
+		active=0xFFFFFFFF;
+		default=0x00FFFFFF;
+		hover=0x38FFFFFF
+	};
+	color={
+		default=0xFFFFFFFF; 
+	};
+	checked={
+		background={default=0xAFE0FFFF;};
+		color={default=0xFFF2A875;};
+	}
+})
+
+//IconText
+//F060x 设置:F085  Git:F092、F09B  网页:F0AC 回形针:F0C6
+//上传下载:F0ED F0EE
+//最大:F2E0
+
+for(i=1;5;1){
+	tbs.loadForm(i,"\forms\main\frmPage"++i++".aardio");
+}
+
+tbs.selIndex = 1;
+
+mainForm.show();
+return win.loopMessage();

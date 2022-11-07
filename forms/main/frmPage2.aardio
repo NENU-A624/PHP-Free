@@ -1,0 +1,33 @@
+import win.ui;
+/*DSG{{*/
+var ViewPage = win.form(text="aardio form";right=759;bottom=469;bgcolor=16777215)
+ViewPage.add(
+EditPort={cls="richedit";left=56;top=16;right=742;bottom=37;autovscroll=false;dl=1;dt=1;font=LOGFONT(h=-14);link=1;readonly=1;z=3};
+Port={cls="plus";text="地址:";left=15;top=16;right=78;bottom=37;align="left";dl=1;dt=1;font=LOGFONT(h=-15);transparent=1;z=2};
+webForm={cls="edit";left=15;top=46;right=745;bottom=456;db=1;dl=1;dr=1;dt=1;edge=1;multiline=1;readonly=1;z=1}
+)
+/*}}*/
+
+import web.form;
+var winFormBox = web.form(ViewPage.webForm,,,,false); 
+winFormBox.go("about:blank");
+
+import php;
+import process.php.simpleHttpServer;
+
+php.print = function( msg ) {
+	winFormBox.document.write(msg);
+}
+
+subscribe("代码变更",function(...){
+	string.save("/PHP-Free.php",...);
+	var url = process.php.simpleHttpServer.startUrl("/PHP-Free.php"); 
+	ViewPage.EditPort.text = url;
+	winFormBox.go(url);
+//	php.exec(...);
+} )
+
+
+ViewPage.show();
+win.loopMessage();
+return ViewPage;
